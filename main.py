@@ -189,29 +189,29 @@ def main():
 
 
 # RUN THE PROGRAM BY PROVIDING THE REQUIRED PARAMETERS IN THE TERMINAL
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
 
 
 # RUN THE PROGRAM USING "python main.py"
-if __name__ == "__main__":
-    # from GCP
-    project_id = ""
-    cs_secret_id = ""
-    lp_secret_id = ""
+# if __name__ == "__main__":
+#     # from GCP
+#     project_id = ""
+#     cs_secret_id = ""
+#     lp_secret_id = ""
 
-    # static file ids
-    monday_file_id = ""
-    device_owner_file_id = ""
+#     # static file ids
+#     monday_file_id = ""
+#     device_owner_file_id = ""
 
-    # output folder id
-    drive_folder_id = ""
+#     # output folder id
+#     drive_folder_id = ""
 
-    generate_report(
-        project_id=project_id,
-        cs_secret_id=cs_secret_id,
-        lp_secret_id=lp_secret_id,
-        target_drive_folder_id=drive_folder_id,
-        monday_file_id=monday_file_id,
-        device_owner_file_id=device_owner_file_id,
-    )
+#     generate_report(
+#         project_id=project_id,
+#         cs_secret_id=cs_secret_id,
+#         lp_secret_id=lp_secret_id,
+#         target_drive_folder_id=drive_folder_id,
+#         monday_file_id=monday_file_id,
+#         device_owner_file_id=device_owner_file_id,
+#     )
