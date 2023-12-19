@@ -2,7 +2,8 @@
 
 ### Setting up the GCP Project
 
-- Create a new Google Cloud project (take note of the **project ID**) and enable the **Google Drive API**.
+- Install the gcloud CLI: https://cloud.google.com/sdk/docs/install
+- In the Google Cloud web console, create a new Google Cloud project (take note of the **project ID**) and enable the **Google Drive API**.
 - Click **Create Credentials**. Fill in all required information.
 - For the **OAuth Client ID** section, you can specify the **Application type** as a Desktop App.
 - You will then be instructed to download your credentials. After downloading the JSON file, rename it to **client_secrets.json**. Place it in the project directory.
@@ -48,17 +49,22 @@ pip install -r requirements.txt
 
 ## Usage
 
-In your terminal, input the command below and press Enter.
+Before running the script, make sure you are authenticated in the gcloud CLI and you are in the correct project.
+
+```bash
+gcloud auth login
+gcloud config set project <PROJECT_ID>
+```
+
+Now, you can run the program by providing the required parameters.
 
 ```bash
 python main.py <Project-ID> <CrowdStrike-Secret-ID> <LastPass-Secret-ID> 
 <Monday-Sheet-ID> <Device-Owner-Sheet-ID> <Output-Folder-ID>
 ``` 
 
-After running the program, an Excel file should be added to the output folder with the name **Report_YYYYMMDD**.
+Afterwards, an Excel file should be added to the output folder with the name **Report_YYYYMMDD**.
 
 ## Notes
 
-When running the program for the first time, a browser window will automatically open, directing you to Google's login page. Login and proceed by clicking "Continue". 
-
-Your credentials will be stored and future runs will no longer require you to log back in.
+When running the program for the first time, a browser window will automatically open, directing you to Google's login page. Login and proceed by clicking "Continue". Your credentials will be stored. After 7 days, the access token will expire and it cannot be refreshed. You will need to log in again.
