@@ -1,6 +1,7 @@
 import os
 import json
-from datetime import datetime
+from datetime import datetime, timezone
+from dateutil import parser as dparser
 from typing import Union
 
 import pandas as pd
@@ -64,20 +65,30 @@ class CSFalconHelpers:
             raise
         device_details = []
 
+        now = datetime.now(timezone.utc)
+        
         # return hostname and last_seen
         for device in result["body"]["resources"]:
+            print(device)
             res = {}
+            then = dparser.parse(device.get("last_seen"), None)
+            distance = (now - then).days
             res["hostname"] = device.get("hostname", None)
             res["last_seen"] = device.get("last_seen", None)
+            res["first_seen"] = device.get("first_seen", None)
+            res["stale_period (days)"] = f"{distance}"
             device_details.append(res)
 
         return device_details
 
 
 def convert_date_format(date_str):
-    return datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ").strftime(
-        "%Y-%m-%d %H:%M:%S"
-    )
+    if date_str:
+        return datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ").strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )
+    else:
+        return None
 
 
 def create_crowdstrike_report(
@@ -110,7 +121,8 @@ def create_crowdstrike_report(
             devices_lst.append(detail)
 
     df = pd.DataFrame(devices_lst)
+    
     # convert date format
     df["last_seen_utc"] = df["last_seen"].apply(lambda x: convert_date_format(x))
-
+    df["first_seen_utc"] = df["first_seen"].apply(lambda x: convert_date_format(x))
     return df

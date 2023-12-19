@@ -116,15 +116,19 @@ def create_lastpass_report(
     data = user_dict["Users"]
     inner_dicts = list(data.values())
     df = pd.DataFrame(inner_dicts)
+    df.to_csv('lastpass.csv')
 
     # get users with expired invitation
-    invited_users = user_dict["invited"]
+    try:
+        invited_users = user_dict["invited"]
 
-    row_index = len(df["username"])
-    for user in invited_users:
-        df.loc[row_index, "username"] = user
-        df.loc[row_index, "neverloggedin"] = None
-        row_index += 1
+        row_index = len(df["username"])
+        for user in invited_users:
+            df.loc[row_index, "username"] = user
+            df.loc[row_index, "neverloggedin"] = None
+            row_index += 1
+    except Exception:
+        pass
 
     # create account_status column and populate
     df["account_status"] = df.apply(account_status_condition, axis=1)

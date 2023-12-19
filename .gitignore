@@ -1,4 +1,9 @@
 __pycache__/
-excel-join/
+excel_auto/
 client_secrets.json
 credentials.json
+misc_code/
+report.csv
+report_generator.zip
+.env
+.DS_Store

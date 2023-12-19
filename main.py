@@ -57,7 +57,9 @@ def generate_report(
     device_sheet.loc[:, "Host Name"] = device_sheet["Host Name"].str.strip()
 
     # get the columns: hostname, last_seen_utc
-    cs_sheet = select_columns_by_name(cs_data, ["hostname", "last_seen_utc"])
+    cs_sheet = select_columns_by_name(
+        cs_data, ["hostname", "last_seen_utc", "first_seen_utc", "stale_period (days)"]
+    )
     cs_sheet.loc[:, "hostname"] = cs_sheet["hostname"].str.strip()
 
     # get the columns: username, account_status, last_login
@@ -72,9 +74,23 @@ def generate_report(
     df_merged = cs_sheet.merge(
         device_sheet, left_on="cs_host_lower", right_on="device_host_lower", how="left"
     )
-    host_df = df_merged[["hostname", "First Name", "Last Name", "last_seen_utc"]]
+    host_df = df_merged[
+        [
+            "hostname",
+            "First Name",
+            "Last Name",
+            "last_seen_utc",
+            "first_seen_utc",
+            "stale_period (days)",
+        ]
+    ]
     host_df.rename(
-        columns={"hostname": "Host Name", "last_seen_utc": "Last Seen (UTC)"},
+        columns={
+            "hostname": "Host Name",
+            "last_seen_utc": "CrowdStrike Last Seen (UTC)",
+            "first_seen_utc": "CrowdStrike First Seen (UTC)",
+            "stale_period (days)": "CrowdStrike Stale Period (days)",
+        },
         inplace=True,
     )
 
@@ -90,7 +106,15 @@ def generate_report(
         how="outer",
     )
     main_host_df = df_merged[
-        ["First Name_x", "Last Name_x", "SynMax Email", "Host Name", "Last Seen (UTC)"]
+        [
+            "First Name_x",
+            "Last Name_x",
+            "SynMax Email",
+            "Host Name",
+            "CrowdStrike Last Seen (UTC)",
+            "CrowdStrike First Seen (UTC)",
+            "CrowdStrike Stale Period (days)",
+        ]
     ]
     host_df.drop(["first_name_lower_host"], axis=1, inplace=True)
     host_df.drop(["last_name_lower_host"], axis=1, inplace=True)
@@ -105,7 +129,9 @@ def generate_report(
             "Last Name_x",
             "SynMax Email",
             "Host Name",
-            "Last Seen (UTC)",
+            "CrowdStrike Last Seen (UTC)",
+            "CrowdStrike First Seen (UTC)",
+            "CrowdStrike Stale Period (days)",
             "account_status",
             "last_login",
         ]
@@ -162,28 +188,30 @@ def main():
     )
 
 
-# RUNNING THE PROGRAM IN THE TERMINAL
-if __name__ == "__main__":
-    main()
-
-
-# TESTING THE PROGRAM
+# RUN THE PROGRAM BY PROVIDING THE REQUIRED PARAMETERS IN THE TERMINAL
 # if __name__ == "__main__":
-#     # from GCP
-#     project_id = ""
-#     cs_secret_id = ""
-#     lp_secret_id = ""
-#     # static file ids
-#     monday_file_id = ""
-#     device_owner_file_id = ""
-#     # output folder id
-#     drive_folder_id = ""
+#     main()
 
-#     generate_report(
-#         project_id=project_id,
-#         cs_secret_id=cs_secret_id,
-#         lp_secret_id=lp_secret_id,
-#         target_drive_folder_id=drive_folder_id,
-#         monday_file_id=monday_file_id,
-#         device_owner_file_id=device_owner_file_id,
-#     )
+
+# RUN THE PROGRAM USING "python main.py"
+if __name__ == "__main__":
+    # from GCP
+    project_id = ""
+    cs_secret_id = ""
+    lp_secret_id = ""
+
+    # static file ids
+    monday_file_id = ""
+    device_owner_file_id = ""
+
+    # output folder id
+    drive_folder_id = ""
+
+    generate_report(
+        project_id=project_id,
+        cs_secret_id=cs_secret_id,
+        lp_secret_id=lp_secret_id,
+        target_drive_folder_id=drive_folder_id,
+        monday_file_id=monday_file_id,
+        device_owner_file_id=device_owner_file_id,
+    )

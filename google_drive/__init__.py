@@ -23,8 +23,15 @@ class GoogleDriveHelpers:
             # authenticate if there are no credentials
             gauth.LocalWebserverAuth()
         elif gauth.access_token_expired:
-            # refresh access token if expired
-            gauth.Refresh()
+            
+            project_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+            try: 
+                # delete existing file
+                os.remove(os.path.join(project_dir, "credentials.json"))
+            except FileNotFoundError:
+                pass
+            # authenticate
+            gauth.LocalWebserverAuth()
         else:
             # initialize the saved credentials
             gauth.Authorize()
@@ -52,6 +59,8 @@ class GoogleDriveHelpers:
             file.GetContentFile(temp_file.name)
             print(f"File downloaded: {temp_file.name}")
             df = pd.read_excel(temp_file)
-        finally:
             temp_file.close()
-            return df
+        except Exception as e:
+            raise
+
+        return df
