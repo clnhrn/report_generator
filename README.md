@@ -33,7 +33,7 @@ You will need two secrets. One for Crowdstrike and another for LastPass. Take no
 
 ### Google Drive Setup
 
-- Create a folder to store the **static** files (i.e. Monday sheet, Device Owner sheet). Take note of the file IDs.
+- Create a folder to store the **static** files (i.e. Employees sheet, Device Owner sheet). Take note of the file IDs.
 - Create another folder to store the **output**. Take note of the folder ID.
   *You can get the ID from the file/folder URL.*
 
