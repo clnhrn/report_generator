@@ -7,3 +7,4 @@ report.csv
 report_generator.zip
 .env
 .DS_Store
+settings.yaml

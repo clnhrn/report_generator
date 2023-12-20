@@ -59,8 +59,7 @@ gcloud config set project <PROJECT_ID>
 Now, you can run the program by providing the required parameters.
 
 ```bash
-python main.py <Project-ID> <CrowdStrike-Secret-ID> <LastPass-Secret-ID> 
-<Monday-Sheet-ID> <Device-Owner-Sheet-ID> <Output-Folder-ID>
+python main.py -p <Project-ID> -c <CrowdStrike-Secret-ID> -l <LastPass-Secret-ID> -e <Employees-Sheet-ID> -d <Device-Owner-Sheet-ID> -o <Output-Folder-ID>
 ``` 
 
 Afterwards, an Excel file should be added to the output folder with the name **Report_YYYYMMDD**.
