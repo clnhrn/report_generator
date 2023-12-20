@@ -39,14 +39,18 @@ def generate_report(
 
     # get the columns: First Name, Last Name, SynMax Email
     main_sheet = select_columns_by_name(
-        monday_data, ["First Name", "Last Name", "SynMax Email"], correct_headers=False
+        monday_data, ["First Name", "Last Name", "SynMax Email"]
     )
     main_sheet.dropna(subset=["First Name"], inplace=True)
     main_sheet.dropna(subset=["Last Name"], inplace=True)
 
     main_sheet.loc[:, "First Name"] = main_sheet["First Name"].str.strip()
     main_sheet.loc[:, "Last Name"] = main_sheet["Last Name"].str.strip()
+    # remove the parentheses and the characters in it
+    main_sheet.loc[:, "Last Name"] = main_sheet["Last Name"].str.replace(r'\s*\([^)]*\)', '', regex=True)
     main_sheet.loc[:, "SynMax Email"] = main_sheet["SynMax Email"].str.strip()
+    main_sheet.loc[:, "SynMax Email"] = main_sheet["SynMax Email"].str.lower()
+
 
     # get the columns: Host Name, First Name, Last Name
     device_sheet = select_columns_by_name(
@@ -125,8 +129,8 @@ def generate_report(
     )
     final_df = df_merged[
         [
-            "First Name_x",
             "Last Name_x",
+            "First Name_x",
             "SynMax Email",
             "Host Name",
             "CrowdStrike Last Seen (UTC)",
@@ -145,6 +149,8 @@ def generate_report(
         },
         inplace=True,
     )
+
+    final_df.drop_duplicates(subset=['Host Name'], keep="first", inplace=True)
 
     # save df in tempfile
     excel_buffer = tempfile.NamedTemporaryFile()
