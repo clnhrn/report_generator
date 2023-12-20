@@ -66,4 +66,4 @@ Afterwards, an Excel file should be added to the output folder with the name **R
 
 ## Notes
 
-When running the program for the first time, a browser window will automatically open, directing you to Google's login page. Login and proceed by clicking "Continue". Your credentials will be stored. After 7 days, the access token will expire and it cannot be refreshed. You will need to log in again.
+When running the program for the first time, a browser window will automatically open, directing you to Google's login page. Login and proceed by clicking "Continue". Your credentials will be stored.
