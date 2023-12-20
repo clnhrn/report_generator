@@ -69,7 +69,6 @@ class CSFalconHelpers:
         
         # return hostname and last_seen
         for device in result["body"]["resources"]:
-            print(device)
             res = {}
             then = dparser.parse(device.get("last_seen"), None)
             distance = (now - then).days
