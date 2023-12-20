@@ -116,7 +116,6 @@ def create_lastpass_report(
     data = user_dict["Users"]
     inner_dicts = list(data.values())
     df = pd.DataFrame(inner_dicts)
-    df.to_csv('lastpass.csv')
 
     # get users with expired invitation
     try:
