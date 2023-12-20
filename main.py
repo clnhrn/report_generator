@@ -19,7 +19,7 @@ def generate_report(
     project_id: str,
     cs_secret_id: str,
     lp_secret_id: str,
-    monday_file_id: str,
+    employees_file_id: str,
     device_owner_file_id: str,
     target_drive_folder_id: str,
     cs_json_credential_file: Union[str, os.PathLike] = None,
@@ -29,7 +29,7 @@ def generate_report(
     drive_obj = GoogleDriveHelpers(drive_json_credential_file)
     drive_obj.create_drive_instance()
 
-    monday_data = drive_obj.download_file(monday_file_id)
+    employees_data = drive_obj.download_file(employees_file_id)
     device_owner_data = drive_obj.download_file(device_owner_file_id)
 
     cs_data = create_crowdstrike_report(
@@ -39,7 +39,7 @@ def generate_report(
 
     # get the columns: First Name, Last Name, SynMax Email
     main_sheet = select_columns_by_name(
-        monday_data, ["First Name", "Last Name", "SynMax Email"]
+        employees_data, ["First Name", "Last Name", "SynMax Email"]
     )
     main_sheet.dropna(subset=["First Name"], inplace=True)
     main_sheet.dropna(subset=["Last Name"], inplace=True)
@@ -175,12 +175,12 @@ def main():
     parser = argparse.ArgumentParser(
         description="Program to generate and upload a report to Google Drive directly."
     )
-    parser.add_argument("project_id", help="Project ID from the Google Cloud console")
-    parser.add_argument("cs_id", help="Secret ID of the CrowdStrike credentials")
-    parser.add_argument("lp_id", help="Secret ID of the LastPass credentials")
-    parser.add_argument("monday_id", help="File ID of the Monday sheet")
-    parser.add_argument("device_owner_id", help="File ID of the Device Owner sheet")
-    parser.add_argument("output_id", help="Folder ID of the output folder")
+    parser.add_argument("-p", "--project_id", help="Project ID from the Google Cloud console")
+    parser.add_argument("-c", "--cs_id", help="Secret ID of the CrowdStrike credentials")
+    parser.add_argument("-l", "--lp_id", help="Secret ID of the LastPass credentials")
+    parser.add_argument("-e", "--employees_id", help="File ID of the Monday sheet")
+    parser.add_argument("-d", "--device_owner_id", help="File ID of the Device Owner sheet")
+    parser.add_argument("-o", "--output_id", help="Folder ID of the output folder")
 
     args = parser.parse_args()
 
@@ -188,7 +188,7 @@ def main():
         project_id=args.project_id,
         cs_secret_id=args.cs_id,
         lp_secret_id=args.lp_id,
-        monday_file_id=args.monday_id,
+        employees_file_id=args.employees_id,
         device_owner_file_id=args.device_owner_id,
         target_drive_folder_id=args.output_id,
     )
