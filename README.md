@@ -31,6 +31,15 @@ LastPass_credentials.json
 
 You will need two secrets. One for Crowdstrike and another for LastPass. Take note of the secret name/ID.
 
+### Secret Manager Access
+
+Make sure the user running the program has access to the secrets.
+
+- Navigate to *IAM & Admin* > *IAM*.
+- Click **GRANT ACCESS**.
+- Enter the email of the user to add them as a principal.
+- In the *Assign roles* section, select the **Secret Manager Secret Accessor** role. Click Save.
+
 ### Google Drive Setup
 
 - Create a folder to store the **static** files (i.e. Employees sheet, Device Owner sheet). Take note of the file IDs.
