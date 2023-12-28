@@ -23,14 +23,16 @@ class GoogleDriveHelpers:
             # authenticate if there are no credentials
             gauth.LocalWebserverAuth()
         elif gauth.access_token_expired:
-            
-            project_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+            project_dir = os.path.abspath(os.getcwd())
             try: 
-                # delete existing file
+                # delete existing credentials file
+                print(f'Delete existing credentials... {os.path.join(project_dir, "credentials.json")}')
                 os.remove(os.path.join(project_dir, "credentials.json"))
             except FileNotFoundError:
                 pass
-            # authenticate
+
+            # load credentials again and authenticate
+            gauth.LoadCredentialsFile(self.json_credentials_file)
             gauth.LocalWebserverAuth()
         else:
             # initialize the saved credentials

@@ -1,10 +1,6 @@
 __pycache__/
-excel_auto/
 client_secrets.json
 credentials.json
-misc_code/
-report.csv
-report_generator.zip
-.env
 .DS_Store
 settings.yaml
+sample_excel_venv/
